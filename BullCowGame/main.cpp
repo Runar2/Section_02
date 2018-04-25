@@ -9,16 +9,19 @@ user interaction. For game logic see the FBullCowGame class
 #include <string>
 #include "FBullCowGame.h"
 
+
+// this is to make the syntax unreal engine friendly
 using int32 = int;
 using FText = std::string;
 
+// function prototypes as outside a class
 void PrintIntro();
 void PlayGame();
 FText GetValidGuess();
 bool AskToPlayAgain();
 void PrintGameSummary();
 
-FBullCowGame BCGame; // instantiate
+FBullCowGame BCGame; // instantiate a new game, which we reuse across plays
 
 // the entry point for our application
 int main()
@@ -50,16 +53,19 @@ void PrintIntro()
 	return;
 }
 
+/*
+Plays through a single game.
+Shows player the ammount of bulls and cows and sheep and such
+*/
 void PlayGame()
 {
 
 	BCGame.Reset();
 	int32 MaxTries = BCGame.GetMaxTries();
-//	std::cout << MaxTries << std::endl;
 
 	// loop asking for guesses until the game is NOT won
 	// and there are still tries remaining
-	while (!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= MaxTries) 
+	while (!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= MaxTries) //checks if game is won and the current try is less than max tries
 	{
 		FText Guess = GetValidGuess();
 

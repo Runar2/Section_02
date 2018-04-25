@@ -1,3 +1,8 @@
+/*
+The game logic (no view code or direct user interaction)
+Basically deals with underlaying things.
+*/
+
 #pragma once
 #include <string>
 

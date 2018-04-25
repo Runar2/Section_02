@@ -2,7 +2,7 @@
 
 #include "FBullCowGame.h"
 #include <map>
-#define TMap std::map
+#define TMap std::map //to make code more Unreal engine friendly
 
 
 FBullCowGame::FBullCowGame() { Reset(); } // default constructor
@@ -11,6 +11,7 @@ int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 int32 FBullCowGame::GetHiddenWordLength() const { return MyHiddenWord.length(); }
 bool FBullCowGame::IsGameWon() const { return bGameIsWon; }
 
+// this adjusts the max number of tries, based on the lenght of the word
 int32 FBullCowGame::GetMaxTries() const 
 {
 	TMap<int32, int32> WordLengthToMaxTries{ {3,5}, {4,7}, {5,10}, {6,15}, {7,20} };
@@ -19,7 +20,13 @@ int32 FBullCowGame::GetMaxTries() const
 
 void FBullCowGame::Reset()
 {
-	const FString HIDDEN_WORD = "planet";
+	/*
+	Considering plopping in an array of different words here in the future,
+	and making it pick one at random.
+	Or maybe let the user pick a word length and make the game
+	pick a random word of words with suiting lenghts
+	*/
+	const FString HIDDEN_WORD = "planet";  //this MUST be an isogram. MUST MUST MUST
 
 	MyHiddenWord = HIDDEN_WORD;
 	MyCurrentTry = 1;
@@ -28,9 +35,9 @@ void FBullCowGame::Reset()
 }
 
 
-
-
-
+/*
+This shit right here checks returns the guess status stuff
+*/
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
 	if (!IsIrogram(Guess)) 
@@ -82,7 +89,7 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 			}
 		}
 	}
-	if (BullCowCount.Bulls == WordLength)
+	if (BullCowCount.Bulls == WordLength) // if the number of bulls is the same as length of word, game is won
 	{
 		bGameIsWon = true;
 	}
