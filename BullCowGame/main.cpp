@@ -1,3 +1,5 @@
+#pragma once
+
 /* This is console executable, that makes use of the BullCow class
 This acts as the view in a MVC pattern, and is responsible for all
 user interaction. For game logic see the FBullCowGame class
@@ -73,7 +75,10 @@ void PlayGame()
 }
 
 
-// loop cont. until the user gives a valid guess
+/*
+The code block that checks if the guess is actually a valid one or not
+e.g. if it's an isogram or if it's too short or long
+*/
 FText GetValidGuess()
 {
 	FText Guess = "";
@@ -109,6 +114,10 @@ FText GetValidGuess()
 	return Guess;
 }
 
+
+/*
+Obviously this asks the user if he wants to play again
+*/
 bool AskToPlayAgain()
 {
 	std::cout << "Do you want to play again with the same hidden word (y/n)? ";
@@ -117,6 +126,9 @@ bool AskToPlayAgain()
 	return (Response[0] == 'y') || (Response[0] == 'Y');
 }
 
+/*
+And this here prints the game summary on game loss or win
+*/
 void PrintGameSummary()
 {
 	int32 MaxTries = BCGame.GetMaxTries();
@@ -125,7 +137,7 @@ void PrintGameSummary()
 		std::cout << "Yay win\n";
 		BCGame.Reset();
 	}
-	else if (BCGame.GetCurrentTry() > MaxTries)
+	else if (BCGame.GetCurrentTry() > MaxTries) //checks if the current try is higher than the max try ammount
 	{
 		std::cout << "Ur out of tries lul\n";
 		BCGame.Reset();

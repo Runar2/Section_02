@@ -11,6 +11,10 @@ struct FBullCowCount
 	int32 Cows = 0;
 };
 
+/*
+This is is the enums to return depending
+on if the guess is a valid one or not
+*/
 enum class EGuessStatus
 {
 	Invalid_Status,
@@ -20,7 +24,10 @@ enum class EGuessStatus
 	Not_Lowercase
 };
 
-
+/*
+This is the contructor for the game apparently.
+tbh I'm not even sure what that means heh :(
+*/
 class FBullCowGame {
 public:
 	FBullCowGame(); // constructor
@@ -31,7 +38,7 @@ public:
 	bool IsGameWon() const;
 	EGuessStatus CheckGuessValidity(FString) const;
 
-	void Reset(); // TODO make a more rich return value
+	void Reset(); 
 	FBullCowCount SubmitValidGuess(FString);
 
 
