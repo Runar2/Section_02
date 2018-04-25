@@ -82,7 +82,8 @@ FText GetValidGuess()
 	{
 		//gets a guess from the player
 		int32 CurrentTry = BCGame.GetCurrentTry();
-		std::cout << "Try " << CurrentTry <<  ". Enter your guess: ";
+		std::cout << "Try " << CurrentTry << " of " << BCGame.GetMaxTries(); 
+		std::cout << ". Enter your guess: ";
 		std::getline(std::cin, Guess);
 
 		//check status and give feedback
@@ -92,19 +93,18 @@ FText GetValidGuess()
 		case EGuessStatus::OK:
 			break;
 		case EGuessStatus::Not_Isogram:
-			std::cout << "Your guess is not an isogram.\n";
+			std::cout << "Your guess is not an isogram.\n\n";
 			break;
 		case EGuessStatus::Wrong_Length:
-			std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n";
+			std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n\n";
 			break;
 		case EGuessStatus::Not_Lowercase:
-			std::cout << "Your guess needs to be lowercase.\n";
+			std::cout << "Your guess needs to be lowercase.\n\n";
 			break;
 		default:
 			// assuming the guess is valid
 			break;
 		}
-		std::cout << std::endl;
 	} while (Status != EGuessStatus::OK); // keep looping until we get a valid input
 	return Guess;
 }
@@ -119,6 +119,7 @@ bool AskToPlayAgain()
 
 void PrintGameSummary()
 {
+	int32 MaxTries = BCGame.GetMaxTries();
 	if (BCGame.IsGameWon())
 	{
 		std::cout << "Yay win\n";
@@ -132,4 +133,5 @@ void PrintGameSummary()
 	else
 	{
 		return;
+	}
 }

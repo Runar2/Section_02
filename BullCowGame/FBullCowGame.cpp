@@ -1,20 +1,24 @@
 #include "FBullCowGame.h"
+#include <map>
+#define TMap std::map
 
 
-FBullCowGame::FBullCowGame() { Reset(); }
+FBullCowGame::FBullCowGame() { Reset(); } // default constructor
 
-int32 FBullCowGame::GetMaxTries() const { return MyMaxTries; }
 int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 int32 FBullCowGame::GetHiddenWordLength() const { return MyHiddenWord.length(); }
 bool FBullCowGame::IsGameWon() const { return bGameIsWon; }
 
+int32 FBullCowGame::GetMaxTries() const 
+{
+	TMap<int32, int32> WordLengthToMaxTries{ {3,5}, {4,7}, {5,10}, {6,15}, {7,20} };
+	return WordLengthToMaxTries[MyHiddenWord.length()];
+}
 
 void FBullCowGame::Reset()
 {
-	constexpr int32 MAX_TRIES = 8;
 	const FString HIDDEN_WORD = "planet";
 
-	MyMaxTries = MAX_TRIES;
 	MyHiddenWord = HIDDEN_WORD;
 	MyCurrentTry = 1;
 	bGameIsWon = false;
@@ -27,11 +31,11 @@ void FBullCowGame::Reset()
 
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
-	if (false) // TODO write function to determine is word is isogram
+	if (!IsIrogram(Guess)) 
 	{
 		return EGuessStatus::Not_Isogram;
 	}
-	else if (false) // TODO write function to determine if guess is lowercase
+	else if (!IsLowercase(Guess)) // TODO write function to determine if guess is lowercase
 	{
 		return EGuessStatus::Not_Lowercase;
 	}
@@ -85,4 +89,42 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 		bGameIsWon = false;
 	}
 	return BullCowCount;
+}
+
+bool FBullCowGame::IsIrogram(FString Word) const
+{
+	// treat 0 and 1 letter words as isograms (since they can't be isograms)
+	if (Word.length() <= 1) 
+	{
+		return true;
+	}
+
+	// setup our map
+	TMap<char, bool> LetterSeen;
+	for (auto Letter : Word) //for all letters of the word
+	{
+		Letter = tolower(Letter); // handle mixed case (makes em lowercase)
+		if (LetterSeen[Letter])
+		{
+			return false; //we do not have an isogram at this stage
+		}
+		else
+		{
+			LetterSeen[Letter] = true; //add the letter to the map as seen
+		}
+
+	}
+	return true; // for example in cases where /0 is entered (lolwat)
+}
+
+bool FBullCowGame::IsLowercase(FString Word) const
+{
+	for (auto Letter : Word)
+	{
+		if (!islower(Letter))
+		{
+			return false;
+		}
+	}
+	return true;
 }
